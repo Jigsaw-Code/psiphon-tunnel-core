@@ -8,16 +8,14 @@ if [ ! -f make.bash ]; then
 fi
 
 # $1, if specified, is go build tags
-if [ -z ${1+x} ]; then BUILD_TAGS=""; else BUILD_TAGS="$1"; fi
-
-# At this time, psiphon-tunnel-core doesn't support modules
-export GO111MODULE=off
+# We disable QUIC because it's currently broken.
+if [ -z ${1+x} ]; then BUILD_TAGS="PSIPHON_DISABLE_QUIC"; else BUILD_TAGS="$1"; fi
 
 export GOCACHE=/tmp
 
 BUILDINFOFILE="psiphon-tunnel-core_buildinfo.txt"
 BUILDDATE=$(date --iso-8601=seconds)
-BUILDREPO="https://github.com/Psiphon-Labs/psiphon-tunnel-core.git"
+BUILDREPO="https://github.com/Jigsaw-Code/psiphon-tunnel-core.git"
 BUILDREV=$(git rev-parse --short HEAD)
 GOVERSION=$(go version | perl -ne '/go version (.*?) / && print $1')
 
@@ -39,7 +37,9 @@ echo " Build revision: ${BUILDREV}"
 echo " Go version: ${GOVERSION}"
 echo ""
 
-gomobile bind -v -x -target=android/arm,android/arm64,android/386,android/amd64 -tags="${BUILD_TAGS}" -ldflags="$LDFLAGS" github.com/Psiphon-Labs/psiphon-tunnel-core/MobileLibrary/psi
+go build -o "$(pwd)/out/" golang.org/x/mobile/cmd/gomobile golang.org/x/mobile/cmd/gobind
+
+PATH="$(pwd)/out:$PATH" gomobile bind -v -x -androidapi 21 -target=android/arm,android/arm64,android/386,android/amd64 -tags="${BUILD_TAGS}" -ldflags="$LDFLAGS" github.com/Psiphon-Labs/psiphon-tunnel-core/MobileLibrary/psi
 if [ $? != 0 ]; then
   echo "..'gomobile bind' failed, exiting"
   exit $?
