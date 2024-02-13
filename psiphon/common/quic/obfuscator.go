@@ -35,7 +35,7 @@ import (
 	"github.com/Psiphon-Labs/psiphon-tunnel-core/psiphon/common/errors"
 	"github.com/Psiphon-Labs/psiphon-tunnel-core/psiphon/common/prng"
 	"github.com/Psiphon-Labs/psiphon-tunnel-core/psiphon/common/transforms"
-	ietf_quic "github.com/Psiphon-Labs/quic-go"
+	ietf_quic "github.com/quic-go/quic-go"
 	"golang.org/x/crypto/hkdf"
 	"golang.org/x/net/ipv4"
 )

@@ -61,8 +61,8 @@ import (
 	"github.com/Psiphon-Labs/psiphon-tunnel-core/psiphon/common/protocol"
 	"github.com/Psiphon-Labs/psiphon-tunnel-core/psiphon/common/transforms"
 	"github.com/Psiphon-Labs/psiphon-tunnel-core/psiphon/common/values"
-	ietf_quic "github.com/Psiphon-Labs/quic-go"
-	"github.com/Psiphon-Labs/quic-go/http3"
+	ietf_quic "github.com/quic-go/quic-go"
+	"github.com/quic-go/quic-go/http3"
 )
 
 const (
